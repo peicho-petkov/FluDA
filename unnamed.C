@@ -1,5 +1,6 @@
 void unnamed()
 {
+   TCanvas *c1 = new TCanvas();
    TPaveText *pt = new TPaveText(0.3531805,0.9342405,0.6468195,0.995,"blNDC");
    pt->SetName("title");
    pt->SetBorderSize(0);
@@ -23,7 +24,6 @@ void unnamed()
    pave->Draw();
    
    pt = new TPaveText(4.722719,92.07461,10.41145,97.93391,"br");
-   pt_Line = pt->AddLine(0,-14.33809,0,-14.33809);
    pt_LaTex = pt->AddText("Total");
    pt->Draw();
    c1->Modified();
