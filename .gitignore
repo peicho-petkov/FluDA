@@ -1,0 +1,4 @@
+.vscode/
+libFluDA/build/
+libFluDA/local/
+p-150MeV.root
