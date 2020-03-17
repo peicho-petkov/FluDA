@@ -64,7 +64,7 @@ int FlukaDumpReader::Analyse(FlukaDumpAnalyser *fda, int events_to_analyse)
                         beam_part = nullptr;
                         fda->set_active_beam_track(beam_part);
                         //std::cout<<"end primary icode "<<rec.ICODE<<" ETRACK "<<rec.ETRACK<<" RULL "<<rec_data.RULL<<std::endl;
-                        if (fda->get_PrimaryParticlesContainer().size()!=100)
+                        if (fda->get_PrimaryParticlesContainer().size()%100==0)
                         {
                             std::cout<<"Primary particles proccessed: "<<fda->get_PrimaryParticlesContainer().size()<<std::endl;
                         }
