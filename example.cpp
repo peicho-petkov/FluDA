@@ -22,6 +22,8 @@ public:
     TH1F *electr_dep_E;
     TH1F *prot_dep_E;
     TH1F *alpha_dep_E;
+    TH1F *He3_dep_E;
+    TH1F *H3_dep_E;
 
     TH2F *tot_dep_E_2d;
     TH2F *sec_hi_dep_E_2d;
@@ -30,6 +32,8 @@ public:
     TH2F *electr_dep_E_2d;
     TH2F *prot_dep_E_2d;
     TH2F *alpha_dep_E_2d;
+    TH2F *He3_dep_E_2d;
+    TH2F *H3_dep_E_2d;
 
     TH1F *pids;
     TH2F *energy_z_pid;
@@ -44,6 +48,8 @@ test_an::test_an()
     electr_dep_E = new TH1F("el_dep_E", "electrons energy dep.", 1000, 0., 100.);
     prot_dep_E = new TH1F("p_dep_E", "protons energy dep.", 1000, 0., 100.);
     alpha_dep_E = new TH1F("alpha_dep_E", "alpha energy dep.", 1000, 0., 100.);
+    He3_dep_E = new TH1F("He3_dep_E", "He3 energy dep.", 1000, 0., 100.);
+    H3_dep_E = new TH1F("H3_dep_E", "H3 energy dep.", 1000, 0., 100.);
 
     tot_dep_E_2d = new TH2F("tot_dep_E_2d", "total energy dep.", 1000, 0., 100., 101, -5.05, 5.05);
     sec_hi_dep_E_2d = new TH2F("sec_hi_dep_E_2d", "secondary HI energy dep.", 1000, 0., 100., 101, -5.05, 5.05);
@@ -52,6 +58,8 @@ test_an::test_an()
     electr_dep_E_2d = new TH2F("el_dep_E_2d", "electrons energy dep.", 1000, 0., 100., 101, -5.05, 5.05);
     prot_dep_E_2d = new TH2F("p_dep_E_2d", "protons energy dep.", 1000, 0., 100., 101, -5.05, 5.05);
     alpha_dep_E_2d = new TH2F("alpha_dep_E_2d", "alpha energy dep.", 1000, 0., 100., 101, -5.05, 5.05);
+    He3_dep_E_2d = new TH2F("He3_dep_E_2d", "He3 energy dep.", 1000, 0., 100., 101, -5.05, 5.05);
+    H3_dep_E_2d = new TH2F("H3_dep_E_2d", "H3 energy dep.", 1000, 0., 100., 101, -5.05, 5.05);
 
     pids = new TH1F("pids", "particle ids", 512, -256, 256);
     energy_z_pid = new TH2F("e_z_pid", "energy vs. z and pid", 512, -256, 256, 100, 0., 100.);
@@ -86,6 +94,17 @@ void test_an::Analyse_Energy_Record(first_rec_case_2 &rec, rec_case_2 &rec_data)
         alpha_dep_E->Fill(rec_data.ZSCO, rec_data.RULL);
         alpha_dep_E_2d->Fill(rec_data.ZSCO, rec_data.XSCO, rec_data.RULL);
     }
+    if (rec.JTRACK == HELIUM_3)
+    {
+        He3_dep_E->Fill(rec_data.ZSCO, rec_data.RULL);
+        He3_dep_E_2d->Fill(rec_data.ZSCO, rec_data.XSCO, rec_data.RULL);
+    }
+    if (rec.JTRACK == TRITON)
+    {
+        H3_dep_E->Fill(rec_data.ZSCO, rec_data.RULL);
+        H3_dep_E_2d->Fill(rec_data.ZSCO, rec_data.XSCO, rec_data.RULL);
+    }
+
 }
 void test_an::Analyse_Track_Record(first_rec_case_1 &rec, SimpleFlukaTrack *trk, bool is_beam_particle)
 {
@@ -145,6 +164,16 @@ void test_an::Analyse_Track_Record(first_rec_case_1 &rec, SimpleFlukaTrack *trk,
     {
         alpha_dep_E->Fill(trk->Segmets_ends[1].z, trk->energy_deposition_events[0]);
         alpha_dep_E_2d->Fill(trk->Segmets_ends[1].z, trk->Segmets_ends[1].x, trk->energy_deposition_events[0]);
+    }
+    if (rec.JTRACK == HELIUM_3)
+    {
+        He3_dep_E->Fill(trk->Segmets_ends[1].z, trk->energy_deposition_events[0]);
+        He3_dep_E_2d->Fill(trk->Segmets_ends[1].z, trk->Segmets_ends[1].x, trk->energy_deposition_events[0]);
+    }
+    if (rec.JTRACK == TRITON)
+    {
+        H3_dep_E->Fill(trk->Segmets_ends[1].z, trk->energy_deposition_events[0]);
+        H3_dep_E_2d->Fill(trk->Segmets_ends[1].z, trk->Segmets_ends[1].x, trk->energy_deposition_events[0]);
     }
 }
 void test_an::Analyse_Primary_Record(first_rec_case_3 &rec, Case3Buffer *c3b)
@@ -219,6 +248,8 @@ int main(int argc, char **argv)
     an.electr_dep_E->Scale(1. / nprimary);
     an.prot_dep_E->Scale(1. / nprimary);
     an.alpha_dep_E->Scale(1. / nprimary);
+    an.He3_dep_E->Scale(1. / nprimary);
+    an.H3_dep_E->Scale(1. / nprimary);
 
     an.tot_dep_E_2d->Scale(1. / nprimary);
     an.sec_hi_dep_E_2d->Scale(1. / nprimary);
@@ -227,6 +258,8 @@ int main(int argc, char **argv)
     an.electr_dep_E_2d->Scale(1. / nprimary);
     an.prot_dep_E_2d->Scale(1. / nprimary);
     an.alpha_dep_E_2d->Scale(1. / nprimary);
+    an.He3_dep_E_2d->Scale(1. / nprimary);
+    an.H3_dep_E_2d->Scale(1. / nprimary);
 
     an.pids->Scale(1. / nprimary);
     an.energy_z_pid->Scale(1. / nprimary);
@@ -238,6 +271,8 @@ int main(int argc, char **argv)
     an.electr_dep_E->Write();
     an.prot_dep_E->Write();
     an.alpha_dep_E->Write();
+    an.He3_dep_E->Write();
+    an.H3_dep_E->Write();
 
     an.tot_dep_E_2d->Write();
     an.sec_hi_dep_E_2d->Write();
@@ -246,6 +281,8 @@ int main(int argc, char **argv)
     an.electr_dep_E_2d->Write();
     an.prot_dep_E_2d->Write();
     an.alpha_dep_E_2d->Write();
+    an.He3_dep_E_2d->Write();
+    an.H3_dep_E_2d->Write();
 
     an.pids->Write();
     an.energy_z_pid->Write();
