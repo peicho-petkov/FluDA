@@ -131,7 +131,7 @@ void FlukaDumpReader::read_first_rec(int mNCASE, first_rec_case_3 *rec)
 {
     if (!dumpfile->eof())
     {
-        dumpfile->seekg(RECORD_DELIMITER_LENGTH, std::ios::cur);
+ //       dumpfile->seekg(RECORD_DELIMITER_LENGTH, std::ios::cur);
         dumpfile->read((char *)&(rec->NPFLKA), sizeof(first_rec_case_3) - sizeof(int));
         dumpfile->seekg(RECORD_DELIMITER_LENGTH, std::ios::cur);
         rec->NCASE = -mNCASE;
