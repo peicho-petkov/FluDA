@@ -63,7 +63,7 @@ void test_an::Analyse_Energy_Record(first_rec_case_2 &rec, rec_case_2 &rec_data)
     auto n = prtrks.size();
     auto current_beam_track = get_active_beam_track();
 
-    std::cout << rec.JTRACK<<" rull "<<rec_data.RULL << std::endl;
+    //std::cout << rec.JTRACK<<" rull "<<rec_data.RULL << std::endl;
 
     pids->Fill(rec.JTRACK);
     tot_dep_E->Fill(rec_data.ZSCO, rec_data.RULL);
@@ -121,7 +121,7 @@ void test_an::Analyse_Track_Record(first_rec_case_1 &rec, SimpleFlukaTrack *trk,
 
     pids->Fill(rec.JTRACK);
 
-    std::cout << rec.JTRACK<<" n dep ev. "<<trk->number_of_energy_deposition_events<<" "<<trk->energy_deposition_events[0] << std::endl;
+    //std::cout << rec.JTRACK<<" n dep ev. "<<trk->number_of_energy_deposition_events<<" "<<trk->energy_deposition_events[0] << std::endl;
 
     tot_dep_E->Fill(trk->Segmets_ends[1].z, (double)trk->energy_deposition_events[0]);
     tot_dep_E_2d->Fill(trk->Segmets_ends[1].z, trk->Segmets_ends[1].x,
@@ -153,9 +153,9 @@ void test_an::Analyse_Primary_Record(first_rec_case_3 &rec, Case3Buffer *c3b)
 
 int main(int argc, char **argv)
 {
-    if (argc != 2)
+    if (argc != 3)
     {
-        std::cerr << "Usage " << argv[0] << " <inputfile>" << std::endl;
+        std::cerr << "Usage " << argv[0] << " <inputfile> <outputfile.root>" << std::endl;
         return 1;
     }
     FlukaDumpReader flr(argv[1]);
@@ -163,7 +163,7 @@ int main(int argc, char **argv)
     outfilename += ".root";
     test_an an;
     int nprimary = flr.Analyse(&an);
-    TFile rfile(outfilename.c_str(), "RECREATE");
+    TFile rfile(argv[2], "RECREATE");
     std::cout << "Primary particles: " << nprimary << std::endl;
 
     auto nbins = 10000;
@@ -206,7 +206,7 @@ int main(int argc, char **argv)
         {
             continue;
         }
-        std::cout << z2 << " " << E0 << " " << E2 << " " << E3 << std::endl;
+        //std::cout << z2 << " " << E0 << " " << E2 << " " << E3 << std::endl;
         auto diff = (-E0 + 8. * E1 - 8. * E3 + E4) / (12. * Ebeam_hist_dz); //negative
         LET->SetPoint(LET->GetN(), z2, diff * 1e6 / 1e4);
         // LET->SetPoint(LET->GetN(),(z2+z1)/2.,-(E2-E1)/(z2-z1)*1e6/1e4);
