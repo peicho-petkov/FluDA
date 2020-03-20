@@ -4,7 +4,7 @@ CXXFLAGS= -O3 -I. -g $(shell root-config --cflags) -I$(LIBFLUDA_BASE_DIR)/includ
 LD=g++
 LDFLAGS= $(shell root-config --libs) -L$(LIBFLUDA_BASE_DIR)/lib -lFluDA
 
-srcs= example.cpp dEdx_Calculator.cpp
+srcs= simpleanalyzer.cpp dEdx_Calculator.cpp
 objs=$(srcs:.cpp=.o)
 
 exename=example
