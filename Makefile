@@ -7,7 +7,7 @@ LDFLAGS= $(shell root-config --libs) -L$(LIBFLUDA_BASE_DIR)/lib -lFluDA
 srcs= simpleanalyzer.cpp dEdx_Calculator.cpp
 objs=$(srcs:.cpp=.o)
 
-exename=example
+exename=analyz
 
 all: $(objs)
 	$(LD) -o $(exename) $(objs) $(LDFLAGS)
