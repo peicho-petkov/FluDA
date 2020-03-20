@@ -6,12 +6,23 @@ dEdx_Calculator::dEdx_Calculator(const char *name, int nbinsx, double xlow, doub
                                  int nbinsy, double ylow, double yup,
                                  int nbinsz, double zlow, double zup) : m_name(name)
 {
-    m_dedx_Edep_accumulator = new TH3F(m_dedx_name, m_dedx_name,
+    m_dedx_Edep_accumulator = new TH3F(m_dedx_edep_name, m_dedx_edep_name,
                                        nbinsx, xlow, xup, nbinsy, ylow, yup, nbinsz, zlow, zup);
     m_dedx_Edep_accumulator->AddDirectory(kFALSE);
+    
+    m_dedx_accumulator =  new TH3F(m_dedx_name, m_dedx_name,
+                                       nbinsx, xlow, xup, nbinsy, ylow, yup, nbinsz, zlow, zup);
+    m_dedx_accumulator->AddDirectory(kFALSE);                               
+    
+    m_Edep_accumulator =  new TH3F(m_edep_name, m_edep_name,
+                                       nbinsx, xlow, xup, nbinsy, ylow, yup, nbinsz, zlow, zup);
+    m_Edep_accumulator->AddDirectory(kFALSE);
+
     m_nentries = new TH3F(m_nentries_name, m_nentries_name,
                           nbinsx, xlow, xup, nbinsy, ylow, yup, nbinsz, zlow, zup);
     m_nentries->AddDirectory(kFALSE);
+
+    set_density();
 }
 
 void dEdx_Calculator::SetAxisRange(float xmin, float xmax, Option_t *axis)
@@ -48,8 +59,10 @@ TH3F* dEdx_Calculator::get_3d_Dose(const char* histoname)
         hname += "_xyz";
     }
     TH3F* edep = (TH3F*)m_Edep_accumulator->Clone(hname.c_str());
-    float dx = edep->GetBinWidth(-1);
-    float dV = dx*dx*dx;
+    float dx = edep->GetXaxis()->GetBinWidth(-1);
+    float dy = edep->GetYaxis()->GetBinWidth(-1);
+    float dz = edep->GetZaxis()->GetBinWidth(-1);
+    float dV = dx*dy*dz;
     edep->Scale(1./(m_density*dV));
     return edep;
 }
@@ -226,8 +239,10 @@ TH2F* dEdx_Calculator::get_2d_Dose_projection(Option_t* prjaxs,const char* histo
         hname += (char*)prjaxs;
     }
     TH3F* edep3d = (TH3F*)m_Edep_accumulator->Clone("tmp_edep3d");
-    float dx = edep3d->GetBinWidth(-1);
-    float dV = dx*dx*dx;
+    float dx = edep3d->GetXaxis()->GetBinWidth(-1);
+    float dy = edep3d->GetYaxis()->GetBinWidth(-1);
+    float dz = edep3d->GetZaxis()->GetBinWidth(-1);
+    float dV = dx*dy*dz;
     edep3d->Scale(1./(m_density*dV));
     TH2F* edep = (TH2F*)edep3d->Project3D(prjaxs);
     delete edep3d; 
@@ -251,8 +266,10 @@ TH1F* dEdx_Calculator::get_1d_Dose_projection(Option_t* prjax,const char* histon
         hname += (char*)prjax;
     }
     TH3F* edep3d = (TH3F*)m_Edep_accumulator->Clone("tmp_edep3d");
-    float dx = edep3d->GetBinWidth(-1);
-    float dV = dx*dx*dx;
+    float dx = edep3d->GetXaxis()->GetBinWidth(-1);
+    float dy = edep3d->GetYaxis()->GetBinWidth(-1);
+    float dz = edep3d->GetZaxis()->GetBinWidth(-1);
+    float dV = dx*dy*dz;
     edep3d->Scale(1./(m_density*dV));
     TH1F* edep = (TH1F*)edep3d->Project3D(prjax);
     delete edep3d; 

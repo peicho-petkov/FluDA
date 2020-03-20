@@ -16,6 +16,8 @@ class dEdx_Calculator
     TH3F *m_nentries;
 
     const char* m_dedx_name = "dedx_accumulator";
+    const char* m_edep_name = "edep_accumulator";
+    const char* m_dedx_edep_name = "dedx_accumulator";
     const char* m_nentries_name = "nentries";
     std::string m_name;
 
@@ -30,7 +32,7 @@ class dEdx_Calculator
     {
         m_Edep_accumulator->Fill(x,y,z,Edep);
         m_dedx_accumulator->Fill(x,y,z,dedx);
-        m_dedx_Edep_accumulator->Fill(x,y,z,dedx);
+        m_dedx_Edep_accumulator->Fill(x,y,z,dedx*Edep);
         m_nentries->Fill(x,y,z);
     }
 
@@ -38,7 +40,7 @@ class dEdx_Calculator
 
     void ResetAllAxisRange();
 
-    void set_density(float density)
+    void set_density(float density = 1.)
     {
         m_density=density;
     }
@@ -112,6 +114,8 @@ class dEdx_Calculator
     virtual ~dEdx_Calculator()
     {
         delete m_dedx_Edep_accumulator;
+        delete m_Edep_accumulator;
+        delete m_dedx_accumulator;
         delete m_nentries;
     };
 };
