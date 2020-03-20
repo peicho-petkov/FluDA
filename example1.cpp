@@ -31,20 +31,20 @@ test_an1::~test_an1()
     delete p_calc;
 }
 
-void test_an::Analyse_Energy_Record(first_rec_case_2 &rec, rec_case_2 &rec_data)
+void test_an1::Analyse_Energy_Record(first_rec_case_2 &rec, rec_case_2 &rec_data)
 {
 }
 
-void test_an::Analyse_Track_Record(first_rec_case_1 &rec, SimpleFlukaTrack *trk, bool is_beam_particle)
+void test_an1::Analyse_Track_Record(first_rec_case_1 &rec, SimpleFlukaTrack *trk, bool is_beam_particle)
 {
     if (rec.JTRACK == PROTON)
     {
-        p_cacl->set_dEdx_Edep(trk->Segmets_ends[1].x, trk->Segmets_ends[1].y, trk->Segmets_ends[1].z,
+        p_calc->set_dEdx_Edep(trk->Segmets_ends[1].x, trk->Segmets_ends[1].y, trk->Segmets_ends[1].z,
                               trk->energy_deposition_events[0]/trk->total_curved_path ,trk->energy_deposition_events[0]);
     }
 }
 
-void test_an::Analyse_Primary_Record(first_rec_case_3 &rec, Case3Buffer *c3b)
+void test_an1::Analyse_Primary_Record(first_rec_case_3 &rec, Case3Buffer *c3b)
 {
 }
 
