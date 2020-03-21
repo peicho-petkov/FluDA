@@ -23,7 +23,7 @@ public:
 
 test_an1::test_an1()
 {
-    p_calc = new dEdx_Calculator("protons", 100, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
+    p_calc = new dEdx_Calculator("protons", 101, -5.05, 5.05,101, -5.05, 5.05, 1000,0.,100.);
 }
 
 test_an1::~test_an1()
@@ -37,7 +37,13 @@ void test_an1::Analyse_Energy_Record(first_rec_case_2 &rec, rec_case_2 &rec_data
 
 void test_an1::Analyse_Track_Record(first_rec_case_1 &rec, SimpleFlukaTrack *trk, bool is_beam_particle)
 {
-    if (rec.JTRACK == PROTON)
+    if (trk->number_of_energy_deposition_events!=1)
+    {
+        std::cerr<<"number_of_energy_deposition_events!=1 jtrack "<<rec.JTRACK<<std::endl;
+        return;
+    }
+
+    if (rec.JTRACK == PROTON || 1)
     {
         p_calc->set_dEdx_Edep(trk->Segmets_ends[1].x, trk->Segmets_ends[1].y, trk->Segmets_ends[1].z,
                               trk->energy_deposition_events[0]/trk->total_curved_path ,trk->energy_deposition_events[0]);
@@ -63,8 +69,7 @@ int main(int argc, char **argv)
     TFile rfile(argv[2], "RECREATE");
     std::cout << "Primary particles: " << nprimary << std::endl;
     an.p_calc->get_3d_Dose("Proton_Dose")->Write();
-    an.p_calc->get_1d_Dose_profile("z","x",0.,"y",0.,"Proton_Dose")->Write();
-    an.p_calc->get_2d_Dose_profile("xy",0.1,"Dose_xy_at_0_1")->Write();
+    an.p_calc->get_1d_Dose_profile("z","x",0.,"y",0.,"Proton_Dose_z")->Write();
     an.p_calc->get_2d_Dose_profile("xy",0.1,"Dose_xy_at_0_1")->Write();
     an.p_calc->get_2d_Dose_profile("xy",10.,"Dose_xy_at_10")->Write();
     an.p_calc->get_2d_Dose_profile("xy",21.9,"Dose_xy_at_21_9")->Write();
