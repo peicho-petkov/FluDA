@@ -10,10 +10,10 @@
 class dEdx_Calculator
 {
     private:
-    TH3F *m_dedx_accumulator;
-    TH3F *m_dedx_Edep_accumulator;
-    TH3F *m_Edep_accumulator;
-    TH3F *m_nentries;
+    TH3D *m_dedx_accumulator;
+    TH3D *m_dedx_Edep_accumulator;
+    TH3D *m_Edep_accumulator;
+    TH3I *m_nentries;
 
     const char* m_dedx_name = "dedx_accumulator";
     const char* m_edep_name = "edep_accumulator";
@@ -32,7 +32,7 @@ class dEdx_Calculator
     {
         m_Edep_accumulator->Fill(x,y,z,Edep);
         m_dedx_accumulator->Fill(x,y,z,dedx);
-        m_dedx_Edep_accumulator->Fill(x,y,z,dedx*Edep);
+        m_dedx_Edep_accumulator->Fill(x,y,z,(double)dedx*(double)Edep);
         m_nentries->Fill(x,y,z);
     }
 
@@ -52,23 +52,23 @@ class dEdx_Calculator
 
     // 3D distributions of the:
     // - average dEdx
-    TH3F* get_3d_av_dEdx(const char* histoname = (const char*)0);
+    TH3D* get_3d_av_dEdx(const char* histoname = (const char*)0);
     // - Dose (dE/(density*dV) = dE/dm) - get_3d_Dose
-    TH3F* get_3d_Dose(const char* histoname = (const char*)0);
+    TH3D* get_3d_Dose(const char* histoname = (const char*)0);
     // - Dose averaged dE/dx - get_3d_dEdx_D
-    TH3F* get_3d_dEdx_D(const char* histoname = (const char*)0);
+    TH3D* get_3d_dEdx_D(const char* histoname = (const char*)0);
 
     // 2D profiles of the spatial distributions 
     // plane - two characters string of "x", "y" or "z"
     // plane_pos - coordinate of the plane along the transfersal to the plane axis 
 
-    TH2F* get_2d_Dose_profile(Option_t* plane, float plane_pos,
+    TH2D* get_2d_Dose_profile(Option_t* plane, float plane_pos,
                                 const char* histoname );
     
-    TH2F* get_2d_dEdx_D_profile(Option_t* plane, float plane_pos,
+    TH2D* get_2d_dEdx_D_profile(Option_t* plane, float plane_pos,
                                 const char* histoname );
 
-    TH2F* get_2d_av_dEdx_profile(Option_t* plane, float plane_pos,
+    TH2D* get_2d_av_dEdx_profile(Option_t* plane, float plane_pos,
                                 const char* histoname );
 
     // 1D profiles of the spatial distributions 
@@ -76,40 +76,40 @@ class dEdx_Calculator
     // axcoord1 and axcoord2 - axeses perpeditular to each other and both perpendicular ot projaxis
     // coord1 and coord2 - the coordinates of the projaxis along axcoord1 and axcoord2
 
-    TH1F* get_1d_Dose_profile(Option_t* projaxis, 
+    TH1D* get_1d_Dose_profile(Option_t* projaxis, 
                                       Option_t* axcoord1, float coord1,
                                       Option_t* axcoord2, float coord2,
                                 const char* histoname );
 
-   TH1F* get_1d_dEdx_D_profile(Option_t* projaxis, 
+   TH1D* get_1d_dEdx_D_profile(Option_t* projaxis, 
                                       Option_t* axcoord1, float coord1,
                                       Option_t* axcoord2, float coord2,
                                 const char* histoname );
 
-    TH1F* get_1d_av_dEdx_profile(Option_t* projaxis, 
+    TH1D* get_1d_av_dEdx_profile(Option_t* projaxis, 
                                       Option_t* axcoord1, float coord1,
                                       Option_t* axcoord2, float coord2,
                                 const char* histoname );
 
 
     // generic profile functions
-    TH2F* get_2d_profile(Option_t* plane, float plane_pos,TH3F* h3d);
+    TH2D* get_2d_profile(Option_t* plane, float plane_pos,TH3D* h3d);
 
-    TH1F* get_1d_profile(Option_t* projaxis, 
+    TH1D* get_1d_profile(Option_t* projaxis, 
                                       Option_t* axcoord1, float coord1,
                                       Option_t* axcoord2, float coord2,
-                                      TH3F* h3d);
+                                      TH3D* h3d);
 
     // 1D and 2D projections of the correspondig  3D destributions
 
-    TH1F* get_1d_av_dEdx_projection(Option_t* prjax ,const char* histoname = (const char*)0);
-    TH2F* get_2d_av_dEdx_projection(Option_t* prjaxs,const char* histoname = (const char*)0);
+    TH1D* get_1d_av_dEdx_projection(Option_t* prjax ,const char* histoname = (const char*)0);
+    TH2D* get_2d_av_dEdx_projection(Option_t* prjaxs,const char* histoname = (const char*)0);
    
-    TH1F* get_1d_dEdx_D_projection(Option_t* prjax, const char* histoname = (const char*)0);
-    TH2F* get_2d_dEdx_D_projection(Option_t* prjaxs,const char* histoname = (const char*)0);
+    TH1D* get_1d_dEdx_D_projection(Option_t* prjax, const char* histoname = (const char*)0);
+    TH2D* get_2d_dEdx_D_projection(Option_t* prjaxs,const char* histoname = (const char*)0);
     
-    TH1F* get_1d_Dose_projection(Option_t* prjax, const char* histoname = (const char*)0);
-    TH2F* get_2d_Dose_projection(Option_t* prjaxs,const char* histoname = (const char*)0);
+    TH1D* get_1d_Dose_projection(Option_t* prjax, const char* histoname = (const char*)0);
+    TH2D* get_2d_Dose_projection(Option_t* prjaxs,const char* histoname = (const char*)0);
 
     virtual ~dEdx_Calculator()
     {
@@ -118,6 +118,8 @@ class dEdx_Calculator
         delete m_dedx_accumulator;
         delete m_nentries;
     };
+
+    TH1I* get_1d_nentries_projection(Option_t* prjax,const char* histoname);
 };
 
 #endif // DEDX_CALCULATOR_HH
