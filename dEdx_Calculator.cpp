@@ -45,6 +45,7 @@ TH3D* dEdx_Calculator::get_3d_av_dEdx(const char* histoname)
     TH3D* dedx = (TH3D*)m_dedx_accumulator->Clone(hname.c_str());
     TH3D* nentries = (TH3D*)m_nentries->Clone("tmp_nentries");
     dedx->Divide(nentries);
+    dedx->Scale(100.); // units [keV/um]
     delete nentries;
     return dedx;
 }
@@ -79,6 +80,7 @@ TH3D* dEdx_Calculator::get_3d_dEdx_D(const char* histoname)
     TH3D* dE = (TH3D*)m_Edep_accumulator->Clone("tmpEdep_3d");
     TH3D* dEdx_dE = (TH3D*)m_dedx_Edep_accumulator->Clone(hname.c_str());
     dEdx_dE->Divide(dE);
+    dEdx_dE->Scale(100.); // units [keV/um]
     delete dE;
     return dEdx_dE;
 }
@@ -196,6 +198,7 @@ TH2D* dEdx_Calculator::get_2d_av_dEdx_projection(Option_t* prjaxs,const char* hi
     dedx->SetName(hname.c_str());
     TH2D* nentries = (TH2D*)m_nentries->Project3D(prjaxs); 
     dedx->Divide(nentries);
+    dedx->Scale(100.); // units [keV/um]
     delete nentries;
     return dedx;
 }
@@ -219,6 +222,7 @@ TH1D* dEdx_Calculator::get_1d_av_dEdx_projection(Option_t* prjax,const char* his
     TH1D* nentries = (TH1D*)m_nentries->Project3D(prjax); 
     dedx->SetName(hname.c_str());
     dedx->Divide(nentries);
+    dedx->Scale(100.); // units [keV/um]
     delete nentries;
     return dedx;
 }
@@ -328,6 +332,7 @@ TH1D* dEdx_Calculator::get_1d_dEdx_D_projection(Option_t* prjax, const char* his
     TH1D* dEdx_dE = (TH1D*)m_dedx_Edep_accumulator->Project3D(prjax);
     dEdx_dE->SetName(hname.c_str());
     dEdx_dE->Divide(dE);
+    dEdx_dE->Scale(100.); // units [keV/um]
     delete dE;
     return dEdx_dE;
 }
@@ -378,7 +383,7 @@ TH1I* dEdx_Calculator::get_1d_nentries_projection(Option_t* prjax,const char* hi
     std::string _optiopns((char *)prjax);
     if(_optiopns.size()!=1)
     {
-        std::cerr<<_optiopns<<" is not a valid option for dEdx_Calculator::get_1d_av_dEdx_projection"<<std::endl;
+        std::cerr<<_optiopns<<" is not a valid option for dEdx_Calculator::get_1d_nentries_projection"<<std::endl;
     }
     std::string hname(histoname);
     if (hname == "")
