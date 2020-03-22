@@ -55,6 +55,11 @@ void analyzer::Analyse_Energy_Record(first_rec_case_2 &rec, rec_case_2 &rec_data
 
 void analyzer::Analyse_Track_Record(first_rec_case_1 &rec, SimpleFlukaTrack *trk, bool is_beam_particle)
 {
+    if (trk->number_of_energy_deposition_events<1) 
+    {
+        return;
+    }
+    
     if (rec.JTRACK == ELECTRON)
     {
         e_calc->set_dEdx_Edep(trk->Segmets_ends[1].x, trk->Segmets_ends[1].y, trk->Segmets_ends[1].z,
