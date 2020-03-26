@@ -24,6 +24,7 @@ public:
     dEdx_Calculator* triton_calc;
     dEdx_Calculator* deutron_calc;
     dEdx_Calculator* p_calc;
+    dEdx_Calculator* all;
 
 };
 
@@ -36,6 +37,7 @@ analyzer::analyzer()
     triton_calc = new dEdx_Calculator("triton", 101, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
     deutron_calc = new dEdx_Calculator("deutron", 101, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
     p_calc = new dEdx_Calculator("protons", 101, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
+    all = new dEdx_Calculator("all", 101, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
 }
 
 analyzer::~analyzer()
@@ -46,7 +48,8 @@ analyzer::~analyzer()
     delete helium3_calc;
     delete triton_calc;
     delete deutron_calc;
-    delete p_calc;
+    delete p_calc;    
+    delete all;
 }
 
 void analyzer::Analyse_Energy_Record(first_rec_case_2 &rec, rec_case_2 &rec_data)
@@ -59,6 +62,9 @@ void analyzer::Analyse_Track_Record(first_rec_case_1 &rec, SimpleFlukaTrack *trk
     {
         return;
     }
+    
+    all->set_dEdx_Edep(trk->Segmets_ends[1].x, trk->Segmets_ends[1].y, trk->Segmets_ends[1].z,
+                          trk->energy_deposition_events[0]/trk->total_curved_path ,trk->energy_deposition_events[0]);
     
     if (rec.JTRACK == ELECTRON)
     {
@@ -124,6 +130,32 @@ int main(int argc, char **argv)
     TFile rfile(argv[argc -1], "RECREATE");
     std::cout << "Primary particles: " << nprimary << std::endl;
 
+    {// all
+    auto hist = an.all->get_3d_Dose("Total_Dose");
+    hist->Scale(1./nprimary);
+    hist->  Write();
+
+    auto hist1 = an.all->get_1d_Dose_profile("z","x",0.,"y",0.,"Total_Dose_z_prof");
+    hist1-> Scale(1./nprimary);
+    hist1-> Write();
+
+    auto hist2 = an.all->get_1d_Dose_profile("x","y",0.,"z",21.9,"Total_Dose_x_y0_z21_9_prof");
+    hist2-> Scale(1./nprimary);
+    hist2-> Write();
+
+    auto hist3 = an.all->get_1d_Dose_profile("x","y",0.,"z",10.,"Total_Dose_x_y0_z10_prof");
+    hist3-> Scale(1./nprimary);
+    hist3-> Write();
+
+    auto hist4 = an.all->get_1d_Dose_projection("z","Total_Dose_z_proj");
+    hist4-> Scale(1./nprimary);
+    hist4-> Write();
+
+    an.all->get_1d_av_dEdx_profile("z","x",0.,"y",0.,"Total_av_dEdx_prof")->Write();
+    an.all->get_1d_dEdx_D_profile("z","x",0.,"y",0.,"Total_dEdx_D_prof")->Write();
+    an.all->get_1d_dEdx_D_projection("z","Total_dEdx_D_proj")->Write();
+    }
+    
     {// electrons
     auto hist = an.e_calc->get_3d_Dose("Electron_Dose");
     hist->Scale(1./nprimary);
