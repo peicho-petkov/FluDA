@@ -349,7 +349,7 @@ int main(int argc, char **argv)
     DoseZlet-> Scale(1./nprimary);
         
     auto LETd = an.all->get_1d_dEdx_D_projection("z","Total_dEdx_D_z");
-    double k=0.055; // сложи точната стойност
+    double k=0.055; 
     DoseZlet->Add(LETd,k);
     delete LETd;
    
