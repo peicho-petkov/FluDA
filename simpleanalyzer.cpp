@@ -352,13 +352,13 @@ int main(int argc, char **argv)
     double k=0.055; // сложи точната стойност
     DoseZlet->Add(LETd,k);
     delete LETd;
-    DoseZlet->Write(); 
+   
         
     auto DoseZlet1 = an.all->get_1d_Dose_projection("z","Total_Dose_LETweighted_z_1");
     DoseZlet1-> Scale(1./nprimary);
     DoseZlet->Add(DoseZlet1);
     delete DoseZlet1; 
-    
+    DoseZlet->Write(); 
     }
 
     rfile.Close();
