@@ -347,7 +347,6 @@ int main(int argc, char **argv)
     {//LET
     auto DoseZlet = an.all->get_1d_Dose_projection("z","Total_Dose_LETweighted_z");
     DoseZ-> Scale(1./nprimary);
-    DoseZlet->  Write();
         
     auto LETd = an.all->get_1d_dEdx_D_projection("z","Total_dEdx_D_z");
     double k=0.055; // сложи точната стойност
