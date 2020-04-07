@@ -350,7 +350,8 @@ int main(int argc, char **argv)
         
     auto LETd = an.all->get_1d_dEdx_D_projection("z","Total_dEdx_D_z");
     double k=0.055; 
-    DoseZlet->Add(LETd,k);
+    LETd-> Scale(k);
+    DoseZlet-> Multiply(LETd);
     delete LETd;
    
         
