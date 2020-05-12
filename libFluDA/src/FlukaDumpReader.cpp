@@ -63,7 +63,11 @@ int FlukaDumpReader::Analyse(FlukaDumpAnalyser *fda, int events_to_analyse)
                         fda->push_back_beam_track(beam_part);
                         beam_part = nullptr;
                         fda->set_active_beam_track(beam_part);
-                        std::cout<<"end primary icode "<<rec.ICODE<<" ETRACK "<<rec.ETRACK<<" RULL "<<rec_data.RULL<<std::endl;
+                        //std::cout<<"end primary icode "<<rec.ICODE<<" ETRACK "<<rec.ETRACK<<" RULL "<<rec_data.RULL<<std::endl;
+                        if (fda->get_PrimaryParticlesContainer().size()%100==0)
+                        {
+                            std::cout<<"Primary particles proccessed: "<<fda->get_PrimaryParticlesContainer().size()<<std::endl;
+                        }
                     }
             }
         }
@@ -105,6 +109,7 @@ void FlukaDumpReader::read_first_rec(int NTRACK, first_rec_case_1 *rec)
         rec->JTRACK = intbuff[1];
         rec->ETRACK = floatbuff[0];
         rec->WTRACK = floatbuff[1];
+
     }
     else
         throw "Unsuccessful read_first_rec_case1";
@@ -126,6 +131,7 @@ void FlukaDumpReader::read_first_rec(int mNCASE, first_rec_case_3 *rec)
 {
     if (!dumpfile->eof())
     {
+ //       dumpfile->seekg(RECORD_DELIMITER_LENGTH, std::ios::cur);
         dumpfile->read((char *)&(rec->NPFLKA), sizeof(first_rec_case_3) - sizeof(int));
         dumpfile->seekg(RECORD_DELIMITER_LENGTH, std::ios::cur);
         rec->NCASE = -mNCASE;
