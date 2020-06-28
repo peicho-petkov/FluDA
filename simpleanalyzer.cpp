@@ -30,14 +30,14 @@ public:
 
 analyzer::analyzer()
 {
-    e_calc = new dEdx_Calculator("electrons", 101, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
-    alpha_calc = new dEdx_Calculator("alpha", 101, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
-    heavyion_calc = new dEdx_Calculator("heavyion", 101, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
-    helium3_calc = new dEdx_Calculator("helium3", 101, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
-    triton_calc = new dEdx_Calculator("triton", 101, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
-    deutron_calc = new dEdx_Calculator("deutron", 101, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
-    p_calc = new dEdx_Calculator("protons", 101, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
-    all = new dEdx_Calculator("all", 101, -5.05, 5.05,100, -5.05, 5.05, 1000,0.,100.);
+    e_calc = new dEdx_Calculator("electrons", 101, -5.05, 5.05,101, -5.05, 5.05, 1000,0.,100.);
+    alpha_calc = new dEdx_Calculator("alpha", 101, -5.05, 5.05,101, -5.05, 5.05, 1000,0.,100.);
+    heavyion_calc = new dEdx_Calculator("heavyion", 101, -5.05, 5.05,101, -5.05, 5.05, 1000,0.,100.);
+    helium3_calc = new dEdx_Calculator("helium3", 101, -5.05, 5.05,101, -5.05, 5.05, 1000,0.,100.);
+    triton_calc = new dEdx_Calculator("triton", 101, -5.05, 5.05,101, -5.05, 5.05, 1000,0.,100.);
+    deutron_calc = new dEdx_Calculator("deutron", 101, -5.05, 5.05,101, -5.05, 5.05, 1000,0.,100.);
+    p_calc = new dEdx_Calculator("protons", 101, -5.05, 5.05,101, -5.05, 5.05, 1000,0.,100.);
+    all = new dEdx_Calculator("all", 101, -5.05, 5.05,101, -5.05, 5.05, 1000,0.,100.);
 }
 
 analyzer::~analyzer()
